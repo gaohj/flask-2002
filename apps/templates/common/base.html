@@ -1,5 +1,5 @@
 {% extends 'bootstrap/base.html' %}
-
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {#定制标题#}
 {% block title %}{% endblock %}
@@ -58,7 +58,11 @@
 {#定制内容#}
 {% block content -%}
     <div class="container">
-
+        
+    
+        {% block page_content %}
+        
+        {% endblock %}
     </div>
 
 
