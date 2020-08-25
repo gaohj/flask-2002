@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField
+from wtforms import StringField,PasswordField,SubmitField,BooleanField
 from wtforms.validators import DataRequired,Length,Email,EqualTo
 from wtforms.validators import ValidationError
 from apps.models import User
@@ -21,3 +21,10 @@ class RegisterForm(FlaskForm):
     def validate_email(self,field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('该邮箱名已经存在,请更换其它邮箱名')
+
+
+class LoginForm(FlaskForm):
+    username = StringField('用户名', validators=[DataRequired(), Length(6, 20, message="用户名在6到20位之间")])
+    password = PasswordField('密码', validators=[DataRequired(), Length(6, 30, message='密码必须在6到30位之间')])
+    remember = BooleanField('记住我')
+    submit = SubmitField('立即登录')

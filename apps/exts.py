@@ -4,13 +4,14 @@ from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
+from flask_login import LoginManager
 #实例化对象
 
 bootstrap = Bootstrap()
 mail = Mail()
 db = SQLAlchemy()
 migrate = Migrate(db=db)
+login_manager = LoginManager()
 #封装函数 完成初始化
 
 def config_extensions(app):
@@ -18,3 +19,10 @@ def config_extensions(app):
     mail.init_app(app)
     db.init_app(app)
     migrate.init_app(app)
+    login_manager.init_app(app)
+    #当我们发表博客 发现没有登录 那么跳到登录页面
+    login_manager.login_view = 'users.login'
+    #给没有登录的用户发送提示信息
+    login_manager.login_message = '登录以后才可以发表'
+    #session的保护级别
+    login_manager.session_protection = 'basic'

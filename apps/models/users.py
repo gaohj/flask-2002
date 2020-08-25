@@ -1,9 +1,10 @@
 from flask import current_app
-from apps.exts import db
+from apps.exts import db,login_manager
 from werkzeug.security import generate_password_hash,check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(UserMixin,db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(32),unique=True)
@@ -56,3 +57,9 @@ class User(db.Model):
             db.session.commit()
         return True
 
+#登录认证的回调
+#登录成功以后存的是用的id
+#需要一个方法根据用户的id 取出用户的详细信息
+@login_manager.user_loader
+def load_user(uid):
+    return User.query.get(uid)
