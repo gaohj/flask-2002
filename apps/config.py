@@ -5,7 +5,7 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 print(base_dir)
 #通用配置
 class Config(object):
-    SECRET_KEY = 'ADADSF1212'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'ADADSF1212'
     #bootstrap使用本地的静态文件
     BOOTSTRAP_SERVE_LOCAL = True
 
