@@ -8,5 +8,7 @@
 
 
 {% block content %}
-    博客内容
+    {% block page_content %}
+        {{ wtf.quick_form(form) }}
+    {% endblock %}
 {% endblock %}

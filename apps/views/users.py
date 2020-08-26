@@ -95,6 +95,7 @@ def change_icon():
 
         #获取上传后文件的地址 然后返回到页面上
         # img_url = photos.url(filename)
+        #current_user 直接获取当前登录的用户
         if current_user.icon != 'default.jpg': #说明已经上传过一次头像
             os.remove(os.path.join(current_app.config['UPLOADED_PHOTOS_DEST'],current_user.icon))
         current_user.icon = filename
