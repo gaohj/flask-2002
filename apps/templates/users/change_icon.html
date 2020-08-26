@@ -4,7 +4,10 @@
 {% block title %}
 修改头像
 {% endblock %}
-     <img src="" alt="">
+       
 {% block page_content %}
+    {% if img_url %}
+        <img src="{{ img_url }}" alt="">
+    {% endif %}
     {{ wtf.quick_form(form) }}
 {% endblock %}

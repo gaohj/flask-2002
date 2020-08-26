@@ -1,9 +1,13 @@
-from flask import Blueprint,render_template,redirect,url_for,flash,request
+import os
+from flask import Blueprint,render_template,redirect,url_for,flash,request,current_app
 from apps.models import User
 from apps.forms import RegisterForm,LoginForm,UploadForm
 from apps.exts import db
 from apps.email import send_mail
 from flask_login import login_user,logout_user,login_required
+from apps.exts import photos
+#pip install pillow
+from PIL import Image
 users = Blueprint("users",__name__)
 
 
@@ -75,4 +79,24 @@ def activate_user(token):
 @login_required
 def change_icon():
     form = UploadForm()
-    return render_template('users/change_icon.html',form=form)
+    img_url =''
+    if form.validate():
+        #随机文件名
+        suffix = os.path.splitext(form.icon.data.filename)[1]
+        filename = random_string()+ suffix
+        photos.save(form.icon.data,name=filename)
+        #文件缩略图
+        pathname = os.path.join(current_app.config['UPLOADED_PHOTOS_DEST'],filename)
+        img = Image.open(pathname)
+        img.thumbnail((128,128))
+        img.save(pathname)
+        #获取上传后文件的地址 然后返回到页面上
+        img_url = photos.url(filename)
+        print(img_url)
+        #新的地址要保存到数据库中
+    return render_template('users/change_icon.html',form=form,img_url=img_url)
+
+def random_string(length=20):
+    import random
+    base_dir = 'qwertyuiopasdfghjklzxcvbnm1234567890'
+    return ''.join(random.choice(base_dir) for i in range(length))

@@ -35,3 +35,5 @@ class LoginForm(FlaskForm):
 class UploadForm(FlaskForm):
     icon = FileField('头像',validators=[FileRequired('请选择头像'),FileAllowed(photos,message='只能上传图片')])
     submit = SubmitField('点击上传')
+
+
