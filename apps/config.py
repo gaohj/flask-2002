@@ -8,7 +8,7 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'ADADSF1212'
     #bootstrap使用本地的静态文件
     BOOTSTRAP_SERVE_LOCAL = True
-
+    PAGE_COUNT = 10
     MAIL_SERVER = 'smtp.163.com'
     MAIL_USERNAME = 'gaohj5@163.com'
     MAIL_PASSWORD = 'TLNOFJSYQPYWISOA'

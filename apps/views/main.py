@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,flash,redirect,url_for
+from flask import Blueprint,render_template,flash,redirect,url_for,request,current_app
 from apps.models import Posts
 from apps.forms import PostsForm
 from flask_login import login_required,current_user
@@ -25,5 +25,12 @@ def index():
             return redirect(url_for('users.login'))
 
     #读取所有的博客
-    posts = Posts.query.filter_by(rid=0).all()
-    return render_template('main/index.html',form=form,posts=posts)
+    # posts = Posts.query.filter_by(rid=0).all()
+    # return render_template('main/index.html',form=form,posts=posts)
+    #接收用户想查看第几页
+    #http://www.baidu.com/?p=1 如果不写p参数 默认为1 类型必须是int 类型
+    page = request.args.get('p',1,type=int)
+    #拿到分页对象
+    pagination = Posts.query.filter_by(rid=0).order_by(Posts.pub_time.desc()).paginate(page,per_page=current_app.config['PAGE_COUNT'],error_out=False)
+    posts = pagination.items
+    return render_template('main/index.html',form=form,posts=posts,pagination=pagination)
