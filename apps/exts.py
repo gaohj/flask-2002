@@ -5,6 +5,8 @@ from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_uploads import UploadSet,IMAGES
+from flask_uploads import configure_uploads,patch_request_class
 #实例化对象
 
 bootstrap = Bootstrap()
@@ -12,6 +14,9 @@ mail = Mail()
 db = SQLAlchemy()
 migrate = Migrate(db=db)
 login_manager = LoginManager()
+photos = UploadSet('photos',IMAGES)
+
+
 #封装函数 完成初始化
 
 def config_extensions(app):
@@ -26,3 +31,7 @@ def config_extensions(app):
     login_manager.login_message = '登录以后才可以发表'
     #session的保护级别
     login_manager.session_protection = 'basic'
+
+    #完成上传文件的初始化
+    configure_uploads(app,photos)
+    patch_request_class(app,size=None)

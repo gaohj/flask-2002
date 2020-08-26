@@ -13,6 +13,12 @@ class Config(object):
     MAIL_USERNAME = 'gaohj5@163.com'
     MAIL_PASSWORD = 'TLNOFJSYQPYWISOA'
 
+    #上传文件的设置
+    MAX_CONTENT_LENGTH = 1024*1024*8
+
+    #上传位置设置
+    UPLOADED_PHOTOS_DEST = os.path.join(base_dir,'static/uploads')
+
 
 
 #开发环境

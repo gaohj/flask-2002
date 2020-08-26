@@ -3,6 +3,8 @@ from wtforms import StringField,PasswordField,SubmitField,BooleanField
 from wtforms.validators import DataRequired,Length,Email,EqualTo
 from wtforms.validators import ValidationError
 from apps.models import User
+from flask_wtf.file import FileField,FileRequired,FileAllowed
+from apps.exts import photos
 #用户注册表单
 class RegisterForm(FlaskForm):
     username = StringField('用户名',validators=[DataRequired(),Length(6,20,message="用户名在6到20位之间")])
@@ -28,3 +30,8 @@ class LoginForm(FlaskForm):
     password = PasswordField('密码', validators=[DataRequired(), Length(6, 30, message='密码必须在6到30位之间')])
     remember = BooleanField('记住我')
     submit = SubmitField('立即登录')
+
+
+class UploadForm(FlaskForm):
+    icon = FileField('头像',validators=[FileRequired('请选择头像'),FileAllowed(photos,message='只能上传图片')])
+    submit = SubmitField('点击上传')
