@@ -23,4 +23,7 @@ def index():
         else:
             flash('登录以后才可以发表')
             return redirect(url_for('users.login'))
-    return render_template('main/index.html',form=form)
+
+    #读取所有的博客
+    posts = Posts.query.filter_by(rid=0).all()
+    return render_template('main/index.html',form=form,posts=posts)
