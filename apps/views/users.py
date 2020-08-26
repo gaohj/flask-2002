@@ -4,7 +4,7 @@ from apps.models import User
 from apps.forms import RegisterForm,LoginForm,UploadForm
 from apps.exts import db
 from apps.email import send_mail
-from flask_login import login_user,logout_user,login_required
+from flask_login import login_user,logout_user,login_required,current_user
 from apps.exts import photos
 #pip install pillow
 from PIL import Image
@@ -78,6 +78,8 @@ def activate_user(token):
 @users.route('/change_icon/',methods=['GET','POST'])
 @login_required
 def change_icon():
+    #current_user 当前登录的用户
+    print(current_user.icon)
     form = UploadForm()
     img_url =''
     if form.validate():
@@ -90,9 +92,17 @@ def change_icon():
         img = Image.open(pathname)
         img.thumbnail((128,128))
         img.save(pathname)
+
         #获取上传后文件的地址 然后返回到页面上
-        img_url = photos.url(filename)
-        print(img_url)
+        # img_url = photos.url(filename)
+        if current_user.icon != 'default.jpg': #说明已经上传过一次头像
+            os.remove(os.path.join(current_app.config['UPLOADED_PHOTOS_DEST'],current_user.icon))
+        current_user.icon = filename
+        db.session.commit()
+        flash('头像上传完毕')
+        return redirect(url_for('users.change_icon'))
+    img_url = photos.url(current_user.icon) #从数据库中取出图片的地址 然后展示页面上
+    print(img_url)
         #新的地址要保存到数据库中
     return render_template('users/change_icon.html',form=form,img_url=img_url)
 
