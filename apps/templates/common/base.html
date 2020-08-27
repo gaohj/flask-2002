@@ -6,15 +6,7 @@
 
 
 {#定制导航条#}
-{#定制脚本#}
-  {% block scripts %}
-{#      父模板有jquery 所以我们直接用super就可以导入#}
-     {{ super() }}
-{#   导入moment.js   #}
-      {{ moment.include_moment() }}
-{#      支持中文显示#}
-      {{ moment.locale('zh-CN') }}
-  {%- endblock scripts %}
+
 
 
 {% block navbar %}
@@ -100,5 +92,13 @@
 
 
 {%- endblock content %}
-
+{#定制脚本#}
+  {% block scripts %}
+{#      父模板有jquery 所以我们直接用super就可以导入#}
+     {{ super() }}
+{#   导入moment.js   #}
+      {{ moment.include_moment() }}
+{#      支持中文显示#}
+      {{ moment.locale('zh-CN') }}
+  {%- endblock scripts %}
 

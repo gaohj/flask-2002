@@ -3,6 +3,7 @@ from apps.exts import db,login_manager
 from werkzeug.security import generate_password_hash,check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_login import UserMixin
+from .posts import Posts
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
@@ -59,7 +60,26 @@ class User(UserMixin,db.Model):
             u.confirmed = True
             db.session.commit()
         return True
-
+    #判断是否收藏
+    def is_favorite(self,pid):
+        #获取该用户收藏的所有博客
+        favorites = self.favorite.all()
+        #然后判断 pid 是否在里边
+        posts = list(filter(lambda p:p.id == pid,favorites))
+        if len(posts)>0:
+            return True
+        else:
+            return False
+    #收藏
+    def add_favorite(self,pid):
+        p = Posts.query.get(pid)
+        self.favorite.append(p)
+        db.session.commit()
+    #取消收藏
+    def del_favorite(self,pid):
+        p = Posts.query.get(pid)
+        self.favorite.remove(p)
+        db.session.commit()
 #登录认证的回调
 #登录成功以后存的是用的id
 #需要一个方法根据用户的id 取出用户的详细信息
