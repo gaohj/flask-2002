@@ -16,5 +16,5 @@ class Posts(db.Model):
     pub_time = db.Column(db.DateTime,default=datetime.utcnow)
 
     uid = db.Column(db.Integer,db.ForeignKey("users.id"))
-    author = db.relationship("User",backref="postes")
+    # author = db.relationship("User",backref="postes")
 

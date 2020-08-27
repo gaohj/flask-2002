@@ -14,7 +14,8 @@
         {% for p in posts %}
             <div class="media">
                 <div class="media-left">
-                    <a href="#">
+{#                    http://baidu.com/postdetail/2/#}
+                    <a href="{{ url_for('main.post_detail',postid=p.id) }}">
                         <img class="media-object" src="{{ url_for('static',filename='uploads/'+p.author.icon) }}"
                              alt="头像">
                     </a>

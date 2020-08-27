@@ -1,0 +1,15 @@
+{% extends 'common/base.html' %}
+{% from 'common/macro/macro.html' import pagination_show%}
+
+{% block title %}
+    {{ post.content }}
+{% endblock %}
+
+
+
+{% block content %}
+    {% block page_content %}
+            {{ post.author.username }}/{{ moment(post.pub_time).fromNow() }}
+    {% endblock %}
+
+{% endblock %}

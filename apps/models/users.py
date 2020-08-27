@@ -14,6 +14,9 @@ class User(UserMixin,db.Model):
     confirmed = db.Column(db.Boolean,default=False)
     icon = db.Column(db.String(128),default='default.jpg')
 
+    #添加收藏功能
+    favorite = db.relationship('Posts',secondary='collections',backref=db.backref('usered',lazy='dynamic'),lazy='dynamic')
+
     @property #把方法可以当成属性来调用
     def password(self):
         raise AttributeError('密码不可读属性')

@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,flash,redirect,url_for,request,current_app
+from flask import Blueprint,render_template,flash,redirect,url_for,request,current_app,abort
 from apps.models import Posts
 from apps.forms import PostsForm
 from flask_login import login_required,current_user
@@ -34,3 +34,13 @@ def index():
     pagination = Posts.query.filter_by(rid=0).order_by(Posts.pub_time.desc()).paginate(page,per_page=current_app.config['PAGE_COUNT'],error_out=False)
     posts = pagination.items
     return render_template('main/index.html',form=form,posts=posts,pagination=pagination)
+
+@main.route('/detail/<postid>/')
+def post_detail(postid):
+    post = Posts.query.get(postid)
+    if not post:  #如果没有帖子详情 那么我们就抛出404错误
+        abort(404)
+
+    #查询帖子的评论内容
+    comments = Posts.query.filter_by(rid=postid).order_by(Posts.pub_time.desc()).all()
+    return render_template('main/detail.html',post=post,comments=comments)

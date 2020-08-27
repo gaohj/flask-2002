@@ -51,7 +51,9 @@
 4.flask-uploads 
 5.生成随机文件名 缩略图
 
-
+# 开发后台  
+> https://adminlte.io/themes/AdminLTE/documentation/index.html 自定义手册
+> https://adminlte.io/themes/AdminLTE/starter.html 开始页面
 
 
 
