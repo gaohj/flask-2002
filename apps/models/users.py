@@ -66,6 +66,7 @@ class User(UserMixin,db.Model):
         favorites = self.favorite.all()
         #然后判断 pid 是否在里边
         posts = list(filter(lambda p:p.id == pid,favorites))
+        # print(len(posts))
         if len(posts)>0:
             return True
         else:

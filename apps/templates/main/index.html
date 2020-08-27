@@ -24,9 +24,10 @@
                     <div style="float: right">{{ moment(p.pub_time).fromNow() }}</div>
                     <h4 class="media-heading">{{ p.author.username }}</h4>
                     {{ p.content }}
-                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_authenticated  %}
                           <div url="{{ url_for('posts.collect',pid=p.id) }}" style="cursor: pointer" class="collect">
-                            {% if current_user.is_favorite(p.id) %}
+                              {{ current_user.is_favorite(p.id) }}
+                              {% if current_user.is_favorite(p.id) %}
                                 取消收藏
                             {% else %}
                                 收藏
@@ -48,9 +49,10 @@
         $(function () {
             $(".collect").click(function () {
                 _this = this
+                {#alert($(this).attr('url'))#}
                 $.get($(this).attr('url'), function(data){
                     if(data['result'] == 'ok'){
-                        if($(_this).text() == '收藏'){
+                         if($(_this).text() == '收藏'){
                             $(_this).text('取消收藏')
                         }else{
                             $(_this).text('收藏')
