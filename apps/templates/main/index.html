@@ -20,6 +20,7 @@
                     </a>
                 </div>
                 <div class="media-body">
+                    <div style="float: right">{{ moment(p.pub_time).fromNow() }}</div>
                     <h4 class="media-heading">{{ p.author.username }}</h4>
                     {{ p.content }}
                 </div>
