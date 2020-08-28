@@ -28,7 +28,7 @@ class DevelopmentConfig(Config):
     PORT = '3306'
     DATABASE = 'kangbazi2002'
     USERNAME = 'root'
-    PASSWORD = '123456'
+    PASSWORD = '123abc'
     # 用户名:密码@数据库地址:端口号/数据库名字
     DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
 
