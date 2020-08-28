@@ -18,3 +18,5 @@ class Posts(db.Model):
     uid = db.Column(db.Integer,db.ForeignKey("users.id"))
     author = db.relationship("User",backref="postes")
 
+    def __repr__(self):
+        return 'Posts:id:%d' % self.id

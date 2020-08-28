@@ -1,4 +1,4 @@
-from flask import current_app
+from flask import current_app,views
 from apps.exts import db,login_manager
 from werkzeug.security import generate_password_hash,check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -17,7 +17,6 @@ class User(UserMixin,db.Model):
 
     #添加收藏功能
     favorite = db.relationship('Posts',secondary='collections',backref=db.backref('usered',lazy='dynamic'),lazy='dynamic')
-
     @property #把方法可以当成属性来调用
     def password(self):
         raise AttributeError('密码不可读属性')
@@ -63,14 +62,17 @@ class User(UserMixin,db.Model):
     #判断是否收藏
     def is_favorite(self,pid):
         #获取该用户收藏的所有博客
+        # print(type(pid))
         favorites = self.favorite.all()
+        # print(type(favorites[0].id))
         #然后判断 pid 是否在里边
-        posts = list(filter(lambda p:p.id == pid,favorites))
+        posts = list(filter(lambda p:p.id == int(pid),favorites))
+
         # print(len(posts))
         if len(posts)>0:
             return True
-        else:
-            return False
+
+        return False
     #收藏
     def add_favorite(self,pid):
         p = Posts.query.get(pid)
@@ -87,3 +89,6 @@ class User(UserMixin,db.Model):
 @login_manager.user_loader
 def load_user(uid):
     return User.query.get(uid)
+
+class TestView(views.View):
+    pass

@@ -44,6 +44,8 @@ class LoginView(views.MethodView):
         return 'success'
 
 
+
+
 class ApiView(views.MethodView):
     def get(self):
         return 'get'
